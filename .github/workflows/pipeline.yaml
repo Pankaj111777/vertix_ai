@@ -1,0 +1,40 @@
+name: Run Notebook on Vertex AI Workbench
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run_notebook:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    
+    - name: Set up Google Cloud SDK
+      uses: google-github-actions/setup-gcloud@v0.2
+      with:
+        service_account_key: ${{ secrets.GOOGLE_CLOUD_KEY }}
+        project_id: etl-project-369516
+    
+    - name: Create Notebook on Vertex AI Workbench
+      run: |
+        # Use google-cloud-aiplatform Python SDK to create the notebook
+        gcloud ai notebooks create --location=us-central1 --instance-type=N1_STANDARD_2 my-notebook
+        
+    - name: Upload Model Script
+      run: |
+        # Upload the model.py file to the notebook instance
+        gcloud ai notebooks instances upload my-notebook --location=us-central1 --source=model.py
+        
+    - name: Run Python Model
+      run: |
+        # Use Google Cloud SDK to execute the model.py file on the notebook instance
+        gcloud ai notebooks instances exec my-notebook --location=us-central1 --exec="python model.py"
+        
+    # - name: Cleanup
+    #   run: |
+    #     # Delete the notebook or perform other cleanup tasks
+    #     gcloud ai notebooks delete my-notebook --location=us-central1 --quiet
