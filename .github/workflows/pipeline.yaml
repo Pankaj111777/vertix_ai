@@ -17,7 +17,7 @@ jobs:
       uses: google-github-actions/setup-gcloud@v0.2
       with:
         service_account_key: ${{ secrets.GOOGLE_CLOUD_KEY }}
-        project_id: etl-project-369516
+        project_id: jcpenny-mlops-poc
     
     - name: Create Notebook on Vertex AI Workbench
       run: |
