@@ -21,7 +21,7 @@ jobs:
     
     - name: Create Notebook on Vertex AI Workbench
       run: |
-        gcloud notebooks instances create hello \
+        gcloud notebooks instances create pipeline \
         --vm-image-project=deeplearning-platform-release \
         --vm-image-family=tf-ent-2-11-cu113-notebooks \
         --machine-type=e2-standard-2 \
