@@ -21,18 +21,24 @@ jobs:
     
     - name: Create Notebook on Vertex AI Workbench
       run: |
-        # Use google-cloud-aiplatform Python SDK to create the notebook
-        gcloud ai notebooks create --location=us-central1 --instance-type=N1_STANDARD_2 my-notebook
+        gcloud notebooks instances create hello \
+        --vm-image-project=deeplearning-platform-release \
+        --vm-image-family=tf-ent-2-11-cu113-notebooks \
+        --machine-type=e2-standard-2 \
+        --location=us-central1-a
+
+
         
-    - name: Upload Model Script
-      run: |
-        # Upload the model.py file to the notebook instance
-        gcloud ai notebooks instances upload my-notebook --location=us-central1 --source=model.py
         
-    - name: Run Python Model
-      run: |
-        # Use Google Cloud SDK to execute the model.py file on the notebook instance
-        gcloud ai notebooks instances exec my-notebook --location=us-central1 --exec="python model.py"
+    # - name: Upload Model Script
+    #   run: |
+    #     # Upload the model.py file to the notebook instance
+    #     gcloud ai notebooks instances upload my-notebook --location=us-central1 --source=model.py
+        
+    # - name: Run Python Model
+    #   run: |
+    #     # Use Google Cloud SDK to execute the model.py file on the notebook instance
+    #     gcloud ai notebooks instances exec my-notebook --location=us-central1 --exec="python model.py"
         
     # - name: Cleanup
     #   run: |
